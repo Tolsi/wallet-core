@@ -20,6 +20,7 @@ enum class PublicKeyType {
     secp256k1,
     secp256k1Extended,
     ed25519,
+    curve25519,
     nist256p1
 };
 
@@ -33,6 +34,9 @@ class PublicKey {
 
     /// The number of bytes in a secp256k1 extended public key.
     static const size_t secp256k1ExtendedSize = 65;
+
+    /// The number of bytes in a curve25519 public key.
+    static const size_t curve25519ExtendedSize = 33;
 
     /// The public key bytes.
     Data bytes;
@@ -49,6 +53,8 @@ class PublicKey {
         case 6:
         case 7:
             return PublicKeyType::secp256k1Extended;
+            case 8:
+                return PublicKeyType::curve25519;
         default:
             assert(false && "Invalid public key data");
             return PublicKeyType::secp256k1;
@@ -72,6 +78,8 @@ class PublicKey {
         case 6:
         case 7:
             return size == secp256k1ExtendedSize;
+            case 8:
+                return size == curve25519ExtendedSize;
         default:
             return false;
         }

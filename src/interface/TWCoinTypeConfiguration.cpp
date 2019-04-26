@@ -58,6 +58,9 @@ TWString *_Nullable TWCoinTypeConfigurationGetSymbol(enum TWCoinType type) {
     case TWCoinTypeLux: string = "LUX"; break;
     case TWCoinTypeQtum: string = "QTUM"; break;
     case TWCoinTypeBravo: string = "BRAVO"; break;
+        case TWCoinTypeWaves:
+            string = "WAVES";
+            break;
     default: string = ""; break;
     }
     return TWStringCreateWithUTF8Bytes(string.c_str());
@@ -97,6 +100,7 @@ int TWCoinTypeConfigurationGetDecimals(enum TWCoinType type) {
     case TWCoinTypeNEO:
     case TWCoinTypeNULS:
     case TWCoinTypeQtum:
+    case TWCoinTypeWaves:
         return 8;
     case TWCoinTypeStellar:
         return 7;
@@ -146,6 +150,7 @@ TWString *_Nullable TWCoinTypeConfigurationGetTransactionURL(enum TWCoinType typ
     case TWCoinTypeXDai:
     case TWCoinTypeZcoin:
     case TWCoinTypeQtum:
+    case TWCoinTypeWaves:
         url += "/tx/" + txId;
         break;
     case TWCoinTypePoa:
@@ -232,6 +237,8 @@ const char *explorerURLForCoinType(enum TWCoinType type) {
     case TWCoinTypeLux: return "https://explorer.poswallet.io";
     case TWCoinTypeQtum: return "https://qtum.info";
     case TWCoinTypeBravo: return "https://explorer.bravocoin.com";
+        case TWCoinTypeWaves:
+            return "https://wavesexplorer.com";
     default: return "";
     }
 }
@@ -279,6 +286,9 @@ TWString *_Nonnull TWCoinTypeConfigurationGetID(enum TWCoinType type) {
     case TWCoinTypeLux: string = "lux"; break;
     case TWCoinTypeQtum: string = "qtum"; break;
     case TWCoinTypeBravo: string = "bravocoin"; break;
+        case TWCoinTypeWaves:
+            string = "waves";
+            break;
     default: string = ""; break;
     }
     return TWStringCreateWithUTF8Bytes(string.c_str());
@@ -327,6 +337,9 @@ TWString *_Nonnull TWCoinTypeConfigurationGetName(enum TWCoinType type) {
     case TWCoinTypeLux: string = "Lux"; break;
     case TWCoinTypeQtum: string = "Qtum"; break;
     case TWCoinTypeBravo: string = "BravoCoin"; break;
+        case TWCoinTypeWaves:
+            string = "Waves";
+            break;
     default: string = ""; break;
     }
     return TWStringCreateWithUTF8Bytes(string.c_str());

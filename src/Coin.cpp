@@ -28,6 +28,7 @@
 #include "Zcash/TAddress.h"
 #include "NULS/Address.h"
 #include "Bravo/Address.h"
+#include "Waves/Address.h"
 
 #include <TrustWalletCore/TWHRP.h>
 #include <TrustWalletCore/TWP2PKHPrefix.h>
@@ -140,6 +141,9 @@ bool TW::validateAddress(TWCoinType coin, const std::string& string) {
     case TWCoinTypeQtum:
         return Bitcoin::SegwitAddress::isValid(string, HRP_QTUM) ||
                Bitcoin::Address::isValid(string, {{TWP2PKHPrefixQtum}});
+
+        case TWCoinTypeWaves:
+            return Waves::Address::isValid(string);
     }
 }
 
@@ -181,6 +185,7 @@ TWPurpose TW::purpose(TWCoinType coin) {
     case TWCoinTypeNULS:
     case TWCoinTypeLux:
     case TWCoinTypeQtum:
+    case TWCoinTypeWaves:
         return TWPurposeBIP44;
     case TWCoinTypeBitcoin:
     case TWCoinTypeViacoin:
@@ -236,6 +241,7 @@ TWCurve TW::curve(TWCoinType coin) {
     case TWCoinTypeStellar:
     case TWCoinTypeTezos:
     case TWCoinTypeKIN:
+    case TWCoinTypeWaves:
         return TWCurveEd25519;
     }
 }
@@ -290,6 +296,7 @@ TWHDVersion TW::xpubVersion(TWCoinType coin) {
     case TWCoinTypeKIN:
     case TWCoinTypeTheta:
     case TWCoinTypeNULS:
+    case TWCoinTypeWaves:
         return TWHDVersionNone;
     }
 }
@@ -344,6 +351,7 @@ TWHDVersion TW::xprvVersion(TWCoinType coin) {
     case TWCoinTypeKIN:
     case TWCoinTypeTheta:
     case TWCoinTypeNULS:
+    case TWCoinTypeWaves:
         return TWHDVersionNone;
     }
 }
@@ -387,12 +395,13 @@ DerivationPath TW::derivationPath(TWCoinType coin) {
         return DerivationPath(purpose(coin), coin, 0, 0, 0);
     case TWCoinTypeAion:
     case TWCoinTypeNEO:
+    case TWCoinTypeWaves:
         return DerivationPath{
-            DerivationPathIndex(purpose(coin), true),
-            DerivationPathIndex(coin, true),
-            DerivationPathIndex(0, true),
-            DerivationPathIndex(0, true),
-            DerivationPathIndex(0, true),
+                DerivationPathIndex(purpose(coin), true),
+                DerivationPathIndex(coin, true),
+                DerivationPathIndex(0, true),
+                DerivationPathIndex(0, true),
+                DerivationPathIndex(0, true),
         };
     case TWCoinTypeNimiq:
     case TWCoinTypeTezos:
@@ -462,6 +471,8 @@ PublicKeyType TW::publicKeyType(TWCoinType coin) {
     case TWCoinTypeStellar:
     case TWCoinTypeTezos:
         return PublicKeyType::ed25519;
+        case TWCoinTypeWaves:
+            return PublicKeyType::curve25519;
     }
 }
 
@@ -562,6 +573,9 @@ std::string TW::deriveAddress(TWCoinType coin, const PublicKey& publicKey) {
 
     case TWCoinTypeQtum:
         return Bitcoin::Address(publicKey, TWP2PKHPrefixQtum).string();
+
+        case TWCoinTypeWaves:
+            return Waves::Address(publicKey).string();
     }
 }
 
@@ -609,6 +623,7 @@ Hash::Hasher TW::publicKeyHasher(TWCoinType coin) {
         return Hash::sha256ripemd;
 
     case TWCoinTypeDecred:
+    case TWCoinTypeWaves:
         return Hash::blake256ripemd;
     }
 }
@@ -657,6 +672,7 @@ Hash::Hasher TW::base58Hasher(TWCoinType coin) {
         return Hash::sha256d;
 
     case TWCoinTypeDecred:
+    case TWCoinTypeWaves:
         return Hash::blake256d;
 
     case TWCoinTypeGroestlcoin:

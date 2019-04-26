@@ -35,6 +35,12 @@ PublicKey PrivateKey::getPublicKey(PublicKeyType type) const {
         result[0] = 1;
         ed25519_publickey(bytes.data(), result.data() + 1);
         break;
+            // todo convert to curve25519
+        case PublicKeyType::curve25519:
+            result.resize(PublicKey::ed25519Size);
+            result[0] = 1;
+            ed25519_publickey(bytes.data(), result.data() + 1);
+            break;
     case PublicKeyType::nist256p1:
         result.resize(PublicKey::secp256k1Size);
         ecdsa_get_public_key33(&nist256p1, bytes.data(), result.data());
@@ -52,6 +58,7 @@ Data PrivateKey::sign(const Data& digest, TWCurve curve) const {
         success = ecdsa_sign_digest(&secp256k1, bytes.data(), digest.data(), result.data(),
                                     result.data() + 64, nullptr) == 0;
     } break;
+            // todo curve25519?
     case TWCurveEd25519: {
         result.resize(64);
         const auto publicKey = getPublicKey(PublicKeyType::ed25519);

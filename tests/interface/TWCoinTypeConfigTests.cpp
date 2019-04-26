@@ -100,6 +100,9 @@ TEST(TWCoinTypeConfiguration, TWCoinTypeConfigurationGetSymbol) {
 
     auto value30 = WRAPS(TWCoinTypeConfigurationGetSymbol(TWCoinTypeBravo));
     assertStringsEqual(value30, "BRAVO");
+
+    auto value31 = WRAPS(TWCoinTypeConfigurationGetSymbol(TWCoinTypeWaves));
+    assertStringsEqual(value31, "WAVES");
 }
 
 TEST(TWCoinTypeConfiguration, TWCoinTypeConfigurationGetDecimals) {
@@ -135,6 +138,7 @@ TEST(TWCoinTypeConfiguration, TWCoinTypeConfigurationGetDecimals) {
     ASSERT_EQ(TWCoinTypeConfigurationGetDecimals(TWCoinTypeLux), 8);
     ASSERT_EQ(TWCoinTypeConfigurationGetDecimals(TWCoinTypeQtum), 8);
     ASSERT_EQ(TWCoinTypeConfigurationGetDecimals(TWCoinTypeBravo), 3);
+    ASSERT_EQ(TWCoinTypeConfigurationGetDecimals(TWCoinTypeWaves), 8);
 }
 
 TEST(TWCoinTypeConfiguration, TWCoinTypeConfigurationGetTransactionURL) {
@@ -326,6 +330,9 @@ TEST(TWCoinTypeConfiguration, TWCoinTypeConfigurationGetID) {
 
     auto value30 = WRAPS(TWCoinTypeConfigurationGetID(TWCoinTypeBravo));
     assertStringsEqual(value30, "bravocoin");
+
+    auto value31 = WRAPS(TWCoinTypeConfigurationGetID(TWCoinTypeWaves));
+    assertStringsEqual(value31, "waves");
 }
 
 TEST(TWCoinTypeConfiguration, TWCoinTypeConfigurationGetName) {
@@ -404,7 +411,6 @@ TEST(TWCoinTypeConfiguration, TWCoinTypeConfigurationGetName) {
     auto value26 = WRAPS(TWCoinTypeConfigurationGetName(TWCoinTypeGroestlcoin));
     assertStringsEqual(value26, "Groestlcoin");
 
-
     auto value27 = WRAPS(TWCoinTypeConfigurationGetName(TWCoinTypeLux));
     assertStringsEqual(value27, "Lux");
 
@@ -418,4 +424,7 @@ TEST(TWCoinTypeConfiguration, TWCoinTypeConfigurationGetName) {
 
     auto value31 = WRAPS(TWCoinTypeConfigurationGetName(TWCoinTypeBravo));
     assertStringsEqual(value31, "BravoCoin");
+
+    auto value32 = WRAPS(TWCoinTypeConfigurationGetName(TWCoinTypeWaves));
+    assertStringsEqual(value32, "Waves");
 }

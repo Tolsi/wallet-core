@@ -25,7 +25,7 @@ PublicKey PublicKey::compressed() const {
 
 PublicKey PublicKey::uncompressed() const {
     auto keyType = type();
-    if (!isCompressed() || keyType == PublicKeyType::ed25519) {
+    if (!isCompressed() || keyType == PublicKeyType::ed25519 || keyType == PublicKeyType::curve25519) {
         return *this;
     }
 
@@ -49,6 +49,8 @@ bool PublicKey::verify(const std::vector<uint8_t>& signature,
                                  signature.data()) == 0;
     case PublicKeyType::nist256p1:
         return ecdsa_verify_digest(&nist256p1, bytes.data(), signature.data(), message.data()) == 0;
+        case PublicKeyType::curve25519:
+            return false;
     }
 }
 
