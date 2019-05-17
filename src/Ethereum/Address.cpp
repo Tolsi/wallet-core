@@ -27,7 +27,7 @@ Address::Address(const std::string& string) {
     std::copy(data.begin(), data.end(), bytes.begin());
 }
 
-Address::Address(const std::vector<uint8_t>& data) {
+Address::Address(const Data& data) {
     if (!isValid(data)) {
         throw std::invalid_argument("Invalid address data");
     }
@@ -35,7 +35,7 @@ Address::Address(const std::vector<uint8_t>& data) {
 }
 
 Address::Address(const PublicKey& publicKey) {
-    if (publicKey.type() != PublicKeyType::secp256k1Extended) {
+    if (publicKey.type != TWPublicKeyTypeSECP256k1Extended) {
         throw std::invalid_argument("Ethereum::Address needs an extended SECP256k1 public key.");
     }
     const auto data = publicKey.hash({}, static_cast<Data(*)(const byte*, const byte*)>(Hash::keccak256), true);

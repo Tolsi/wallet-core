@@ -1,4 +1,4 @@
-version = '0.9.1'
+version = '0.10.0'
 
 Pod::Spec.new do |s|
   s.name         = 'TrustWalletCore'
@@ -160,5 +160,5 @@ Pod::Spec.new do |s|
   }
   s.prepare_command = 'tools/install-dependencies && tools/generate-files'
 
-  s.dependency 'SwiftProtobuf', '~> 1.3.0'
+  s.dependency 'SwiftProtobuf', '~> 1.5.0'
 end

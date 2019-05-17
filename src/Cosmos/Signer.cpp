@@ -42,7 +42,7 @@ json Signer::buildTransactionJSON(const Data& signature) const {
     auto sig = Cosmos::Proto::Signature();
     sig.set_signature(signature.data(), signature.size());
     auto privateKey = PrivateKey(input.private_key());
-    auto publicKey = privateKey.getPublicKey(PublicKeyType::secp256k1);
+    auto publicKey = privateKey.getPublicKey(TWPublicKeyTypeSECP256k1);
     sig.set_public_key(publicKey.bytes.data(), publicKey.bytes.size());
 
     auto transaction = Cosmos::Proto::Transaction();
@@ -65,8 +65,15 @@ std::string Signer::buildTransaction() const {
     return buildTransactionJSON(signature).dump();
 }
 
-std::vector<uint8_t> Signer::build() const {
+Proto::SigningOutput Signer::build() const {
+    auto output = Proto::SigningOutput();
+
     auto signature = sign();
     auto txJson = buildTransactionJSON(signature);
-    return json::to_cbor(txJson);
+    auto txEncoded = json::to_cbor(txJson);
+
+    output.set_json(txJson.dump());
+    output.set_encoded(txEncoded.data(), txEncoded.size());
+
+    return output;
 }

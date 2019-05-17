@@ -23,30 +23,33 @@ public extension CoinType {
         case .dash, .dogecoin, .zcoin, .lux:
             if let addr = BitcoinAddress(string: string), prefixSet.contains(addr.prefix) { return addr }
         case .callisto,
+             .ellaism,
              .ethereum,
              .ethereumClassic,
              .ethersocial,
-             .go,
-             .poa,
+             .goChain,
+             .poanetwork,
              .theta,
              .thunderToken,
              .tomoChain,
              .veChain,
-             .xdai:
+             .xdai,
+             .dexon:
             return EthereumAddress(string: string)
-        case .wanChain:
+        case .wanchain:
             return WanchainAddress(string: string)
         case .icon:
             return IconAddress(string: string)
         case .ontology:
             return OntologyAddress(string: string)
-        case .ripple:
+        case .xrp:
             return RippleAddress(string: string)
         case .tezos:
             return TezosAddress(string: string)
         case .tron:
             return TronAddress(string: string)
-        case .zcash:
+        case .zelcash,
+             .zcash:
             return ZcashTAddress(string: string)
         case .nimiq:
             return NimiqAddress(string: string)
@@ -54,6 +57,8 @@ public extension CoinType {
             return StellarAddress(string: string)
         case .aion:
             return AionAddress(string: string)
+        case .nano:
+            return NanoAddress(string: string)
         case .neo:
             return NEOAddress(string: string)
         case .decred:
@@ -70,8 +75,18 @@ public extension CoinType {
             return IOSTAccount(string: string)
         case .nuls:
             return NULSAddress(string: string)
-        case .bravo:
+        case .bravoCoin:
             return BravoAddress(string: string)
+        case .steem:
+            return SteemAddress(string: string)
+        case .eos:
+            return EOSAddress(string: string)
+        case .ioTeX:
+            return IoTeXAddress(string: string)
+        case .zilliqa:
+            return ZilliqaAddress(string: string)
+        case .semux:
+            return SemuxAddress(string: string)
         }
         return .none
     }
@@ -92,7 +107,8 @@ public extension CoinType {
             return Set([P2SHPrefix.dash.rawValue, P2PKHPrefix.dash.rawValue])
         case .zcoin:
             return Set([P2SHPrefix.zcoin.rawValue, P2PKHPrefix.zcoin.rawValue])
-        case .zcash:
+        case .zelcash,
+             .zcash:
             return Set([P2SHPrefix.zcashT.rawValue, P2PKHPrefix.zcashT.rawValue])
         case .qtum:
             return Set([P2PKHPrefix.qtum.rawValue])

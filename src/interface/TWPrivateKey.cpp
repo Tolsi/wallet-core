@@ -72,19 +72,23 @@ TWData *TWPrivateKeyData(struct TWPrivateKey *_Nonnull pk) {
 }
 
 struct TWPublicKey *_Nonnull TWPrivateKeyGetPublicKeyNist256p1(struct TWPrivateKey *_Nonnull pk) {
-        return new TWPublicKey{ pk->impl.getPublicKey(PublicKeyType::nist256p1) };
+    return new TWPublicKey{ pk->impl.getPublicKey(TWPublicKeyTypeNIST256p1) };
 }
 
 struct TWPublicKey *_Nonnull TWPrivateKeyGetPublicKeySecp256k1(struct TWPrivateKey *_Nonnull pk, bool compressed) {
     if (compressed)  {
-        return new TWPublicKey{ pk->impl.getPublicKey(PublicKeyType::secp256k1) };
+        return new TWPublicKey{ pk->impl.getPublicKey(TWPublicKeyTypeSECP256k1) };
      } else {
-        return new TWPublicKey{ pk->impl.getPublicKey(PublicKeyType::secp256k1Extended) };
+        return new TWPublicKey{ pk->impl.getPublicKey(TWPublicKeyTypeSECP256k1Extended) };
      }
 }
 
 struct TWPublicKey *_Nonnull TWPrivateKeyGetPublicKeyEd25519(struct TWPrivateKey *_Nonnull pk) {
-    return new TWPublicKey{ pk->impl.getPublicKey(PublicKeyType::ed25519) };
+    return new TWPublicKey{ pk->impl.getPublicKey(TWPublicKeyTypeED25519) };
+}
+
+struct TWPublicKey *_Nonnull TWPrivateKeyGetPublicKeyEd25519Blake2b(struct TWPrivateKey *_Nonnull pk) {
+    return new TWPublicKey{ pk->impl.getPublicKey(TWPublicKeyTypeED25519Blake2b) };
 }
 
 TWData *TWPrivateKeySign(struct TWPrivateKey *_Nonnull pk, TWData *_Nonnull digest, enum TWCurve curve) {
@@ -100,6 +104,17 @@ TWData *TWPrivateKeySign(struct TWPrivateKey *_Nonnull pk, TWData *_Nonnull dige
 TWData *TWPrivateKeySignAsDER(struct TWPrivateKey *_Nonnull pk, TWData *_Nonnull digest, enum TWCurve curve) {
     auto& d = *reinterpret_cast<const Data*>(digest);
     auto result = pk->impl.signAsDER(d, curve);
+    if (result.empty()) {
+        return nullptr;
+    } else {
+        return TWDataCreateWithBytes(result.data(), result.size());
+    }
+}
+
+TWData *TWPrivateKeySignSchnorr(struct TWPrivateKey *_Nonnull pk, TWData *_Nonnull message, enum TWCurve curve) {
+    auto& msg = *reinterpret_cast<const Data*>(message);
+    auto result = pk->impl.signSchnorr(msg, curve);
+
     if (result.empty()) {
         return nullptr;
     } else {

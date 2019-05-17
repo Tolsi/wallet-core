@@ -36,7 +36,7 @@ class HDWalletTests: XCTestCase {
     }
 
     func testWanchain() {
-        let wanChain = CoinType.wanChain
+        let wanChain = CoinType.wanchain
         let wallet = HDWallet.test
         let key = wallet.getKeyForCoin(coin: wanChain)
         let address = wanChain.deriveAddress(privateKey: key)
@@ -154,7 +154,7 @@ class HDWalletTests: XCTestCase {
     }
 
     func testDeriveRipple() {
-        let ripple = CoinType.ripple
+        let ripple = CoinType.xrp
         let wallet = HDWallet.test
         let key = wallet.getKeyForCoin(coin: ripple)
         let address = ripple.deriveAddress(privateKey: key)
@@ -185,7 +185,7 @@ class HDWalletTests: XCTestCase {
         let pubkey = key.getPublicKeyEd25519()
         let address = TezosAddress(publicKey: pubkey)
 
-        XCTAssertEqual(pubkey.data.hexString, "01c834147f97bcf95bf01f234455646a197f70b25e93089591ffde8122370ad371")
+        XCTAssertEqual(pubkey.data.hexString, "c834147f97bcf95bf01f234455646a197f70b25e93089591ffde8122370ad371")
         XCTAssertEqual("tz1RsC3AREfrMwh6Hdu7qGKxBwb1VgwJv1qw", address.description)
     }
 
@@ -236,6 +236,16 @@ class HDWalletTests: XCTestCase {
         XCTAssertEqual("DJRoWqKj6hVmZMEMPahJ7UsqaYCtEJ3xv9", address)
     }
 
+    func testDeriveZilliqa() {
+        let zil = CoinType.zilliqa
+        let wallet = HDWallet.test
+        let key = wallet.getKeyForCoin(coin: .zilliqa)
+        let address = zil.deriveAddress(privateKey: key)
+
+        XCTAssertEqual(key.data.hexString, "b49a9fb16cd2b46ee538be807f712073009ea528e407a25a4bf91a63c3e49f99")
+        XCTAssertEqual(address.description, "0x65E1a9341E08d10E6f3C00930CE879c5bF980319")
+    }
+
     func testSignHash() {
         let eth = CoinType.ethereum
         let wallet = HDWallet.test
@@ -278,8 +288,8 @@ class HDWalletTests: XCTestCase {
         let xpub9 = HDWallet.derive(from: xpub, at: DerivationPath(purpose: .bip44, coinType: bitcoin, account: 0, change: 0, address: 9))!
 
 
-        let xpubAddr2 = BitcoinAddress(publicKey: xpub2, prefix: P2PKHPrefix.bitcoin.rawValue)
-        let xpubAddr9 = BitcoinAddress(publicKey: xpub9, prefix: P2PKHPrefix.bitcoin.rawValue)
+        let xpubAddr2 = BitcoinAddress(publicKey: xpub2, prefix: P2PKHPrefix.bitcoin.rawValue)!
+        let xpubAddr9 = BitcoinAddress(publicKey: xpub9, prefix: P2PKHPrefix.bitcoin.rawValue)!
 
         XCTAssertEqual(xpubAddr2.description,  "1MNF5RSaabFwcbtJirJwKnDytsXXEsVsNb")
         XCTAssertEqual(xpubAddr9.description, "1DUrqK4hj6vNNUTWXADpbqyjVWUYFD7xTZ")
