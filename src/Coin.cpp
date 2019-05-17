@@ -167,7 +167,6 @@ bool TW::validateAddress(TWCoinType coin, const std::string& string) {
 
     case TWCoinTypeSemux:
         return Semux::Address::isValid(string);
-    }
 
     case TWCoinTypeWaves:
         return Waves::Address::isValid(string);
@@ -291,7 +290,6 @@ std::string TW::deriveAddress(TWCoinType coin, const PublicKey& publicKey) {
 
     case TWCoinTypeSemux:
         return Semux::Address(publicKey).string();
-    }
 
     case TWCoinTypeWaves:
             return Waves::Address(publicKey).string();

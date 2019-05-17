@@ -79,10 +79,10 @@ PublicKey PrivateKey::getPublicKey(TWPublicKeyType type) const {
         break;
     case TWPublicKeyTypeED25519:
         result.resize(PublicKey::ed25519Size);
-        ed25519_publickey(bytes.data(), result.data());
-        break;
-    case TWPublicKeyTypeED25519Blake2b:
-        result.resize(PublicKey::ed25519Size);
+            ed25519_publickey(bytes.data(), result.data());
+            break;
+        case TWPublicKeyTypeED25519Blake2b:
+            result.resize(PublicKey::ed25519Size);
         ed25519_publickey_blake2b(bytes.data(), result.data());
         break;
     case TWPublicKeyTypeCurve25519:
@@ -182,7 +182,8 @@ Data PrivateKey::signSchnorr(const Data& message, TWCurve curve) const {
 
     case TWCurveNIST256p1:
     case TWCurveED25519:
-    case TWCurveED25519Blake2bNano: {
+    case TWCurveED25519Blake2bNano:
+    case TWCurveCurve25519: {
         // not support
     } break;
     }
