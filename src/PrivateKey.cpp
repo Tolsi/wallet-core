@@ -7,6 +7,7 @@
 #include "PrivateKey.h"
 
 #include "PublicKey.h"
+#include "sodium/keypair.h"
 
 #include <TrezorCrypto/ecdsa.h>
 #include <TrezorCrypto/nist256p1.h>
@@ -35,11 +36,11 @@ PublicKey PrivateKey::getPublicKey(PublicKeyType type) const {
         result[0] = 1;
         ed25519_publickey(bytes.data(), result.data() + 1);
         break;
-            // todo convert to curve25519
         case PublicKeyType::curve25519:
             result.resize(PublicKey::ed25519Size);
             result[0] = 1;
             ed25519_publickey(bytes.data(), result.data() + 1);
+            ed25519_pk_to_curve25519(result.data() + 1, result.data() + 1);
             break;
     case PublicKeyType::nist256p1:
         result.resize(PublicKey::secp256k1Size);

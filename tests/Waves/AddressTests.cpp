@@ -22,7 +22,7 @@ namespace TW {
         TEST(WavesAddress, FromPrivateKey) {
             const auto privateKey = PrivateKey(
                     parse_hex("9864a747e1b97f131fabb6b447296c9b6f0201e79fb3c5356e6c77e89b6a806a"));
-            const auto publicKey = privateKey.getPublicKey(PublicKeyType::ed25519);
+            const auto publicKey = privateKey.getPublicKey(PublicKeyType::curve25519);
             const auto address = Address(publicKey);
 
             ASSERT_EQ(address.string(), "3P558LKWSr3NC6z58ZD8eE78dozbnW3Y8oC");
@@ -31,7 +31,7 @@ namespace TW {
         TEST(WavesAddress, FromPublicKey) {
             const auto privateKey = PrivateKey(
                     parse_hex("9864a747e1b97f131fabb6b447296c9b6f0201e79fb3c5356e6c77e89b6a806a"));
-            const auto publicKey = privateKey.getPublicKey(PublicKeyType::ed25519);
+            const auto publicKey = privateKey.getPublicKey(PublicKeyType::curve25519);
             const auto address = Address(publicKey);
 
             ASSERT_EQ(address.string(), "3P558LKWSr3NC6z58ZD8eE78dozbnW3Y8oC");

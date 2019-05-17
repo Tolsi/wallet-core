@@ -35,9 +35,6 @@ class PublicKey {
     /// The number of bytes in a secp256k1 extended public key.
     static const size_t secp256k1ExtendedSize = 65;
 
-    /// The number of bytes in a curve25519 public key.
-    static const size_t curve25519ExtendedSize = 33;
-
     /// The public key bytes.
     Data bytes;
 
@@ -79,7 +76,7 @@ class PublicKey {
         case 7:
             return size == secp256k1ExtendedSize;
             case 8:
-                return size == curve25519ExtendedSize;
+                return size == ed25519Size;
         default:
             return false;
         }
