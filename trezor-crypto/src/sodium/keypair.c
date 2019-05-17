@@ -1,6 +1,6 @@
 #include <string.h>
 
-#include "keypair.h"
+#include <TrezorCrypto/sodium/keypair.h>
 
 int ed25519_pk_to_curve25519(unsigned char *curve25519_pk, const unsigned char *ed25519_pk) {
     ge25519_p3 A;
@@ -8,7 +8,7 @@ int ed25519_pk_to_curve25519(unsigned char *curve25519_pk, const unsigned char *
     fe25519 one_minus_y;
 
     if (ge25519_has_small_order(ed25519_pk) != 0 ||
-        ge25519_frombytes_negate_vartime(&A, ed25519_pk) != 0) {
+        ge25519_frombytes_negate_vartime(&A, ed25519_pk) != 0 ||
         ge25519_is_on_main_subgroup(&A) == 0) {
             return -1;
         }

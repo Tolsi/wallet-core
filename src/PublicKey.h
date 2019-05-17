@@ -47,7 +47,7 @@ class PublicKey {
             return false;
         }
         switch (type) {
-        case TWPublicKeyTypeCurve25519:
+            case TWPublicKeyTypeCURVE25519:
         case TWPublicKeyTypeED25519:
             return size == ed25519Size || (size == ed25519Size + 1 && data[0] == 0x01);
         case TWPublicKeyTypeED25519Blake2b:
@@ -81,6 +81,7 @@ class PublicKey {
             break;
 
         case TWPublicKeyTypeED25519:
+        case TWPublicKeyTypeCURVE25519:
             bytes.reserve(ed25519Size);
             if (data.size() == ed25519Size + 1) {
                 std::copy(std::begin(data) + 1, std::end(data), std::back_inserter(bytes));

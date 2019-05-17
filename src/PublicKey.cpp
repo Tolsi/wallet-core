@@ -47,7 +47,7 @@ PublicKey PublicKey::extended() const {
     case TWPublicKeyTypeNIST256p1Extended:
         return *this;
     case TWPublicKeyTypeED25519:
-    case TWPublicKeyTypeCurve25519:
+    case TWPublicKeyTypeCURVE25519:
     case TWPublicKeyTypeED25519Blake2b:
        return *this;
     }
@@ -65,9 +65,9 @@ bool PublicKey::verify(const Data& signature, const Data& message) const {
         return ed25519_sign_open(message.data(), message.size(), bytes.data() + 1, signature.data()) == 0;
     case TWPublicKeyTypeED25519Blake2b:
         return ed25519_sign_open_blake2b(message.data(), message.size(), bytes.data() + 1, signature.data()) == 0;
-    }
-    case TWPublicKeyTypeCurve25519:
+        case TWPublicKeyTypeCURVE25519:
         return false;
+    }
 }
 
 bool PublicKey::verifySchnorr(const Data& signature, const Data& message) const {
@@ -80,7 +80,7 @@ bool PublicKey::verifySchnorr(const Data& signature, const Data& message) const 
         return false;
     case TWPublicKeyTypeED25519:
     case TWPublicKeyTypeED25519Blake2b:
-    case TWPublicKeyTypeCurve25519:
+    case TWPublicKeyTypeCURVE25519:
         return false;
     }
 }

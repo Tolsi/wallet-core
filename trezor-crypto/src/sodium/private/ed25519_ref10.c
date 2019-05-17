@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "ed25519_ref10.h"
+#include <TrezorCrypto/sodium/private/ed25519_ref10.h>
 
 /*
  * Field arithmetic:
@@ -15,8 +15,8 @@
  */
 
 
-#include "fe_25_5/constants.h"
-#include "fe_25_5/fe.h"
+#include <TrezorCrypto/sodium/private/fe_25_5/constants.h>
+#include <TrezorCrypto/sodium/private/fe_25_5/fe.h>
 
 void
 fe25519_invert(fe25519 out, const fe25519 z) {

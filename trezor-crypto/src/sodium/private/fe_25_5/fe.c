@@ -1,4 +1,4 @@
-#include "fe.h"
+#include <TrezorCrypto/sodium/private/fe_25_5/fe.h>
 
 uint64_t
 load_3(const unsigned char *in) {

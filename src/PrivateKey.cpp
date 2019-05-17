@@ -7,7 +7,6 @@
 #include "PrivateKey.h"
 
 #include "PublicKey.h"
-#include "sodium/keypair.h"
 
 #include <TrezorCrypto/ecdsa.h>
 #include <TrezorCrypto/ed25519-donna/ed25519-blake2b.h>
@@ -17,6 +16,7 @@
 #include <TrezorCrypto/schnorr.h>
 #include <TrezorCrypto/memzero.h>
 #include <TrezorCrypto/bignum.h>
+#include <TrezorCrypto/sodium/keypair.h>
 
 using namespace TW;
 
@@ -39,6 +39,7 @@ bool PrivateKey::isValid(const Data& data, TWCurve curve)
         break;
     case TWCurveED25519:
     case TWCurveED25519Blake2bNano:
+    case TWCurveCurve25519:
         break;
     }
 
@@ -85,7 +86,7 @@ PublicKey PrivateKey::getPublicKey(TWPublicKeyType type) const {
             result.resize(PublicKey::ed25519Size);
         ed25519_publickey_blake2b(bytes.data(), result.data());
         break;
-    case TWPublicKeyTypeCurve25519:
+        case TWPublicKeyTypeCURVE25519:
         result.resize(PublicKey::ed25519Size);
         result[0] = 1;
         ed25519_publickey(bytes.data(), result.data() + 1);
@@ -115,6 +116,12 @@ Data PrivateKey::sign(const Data& digest, TWCurve curve) const {
         ed25519_sign_blake2b(digest.data(), digest.size(), bytes.data(),
                              publicKey.bytes.data(), result.data());
     } break;
+        case TWCurveCurve25519: {
+            result.resize(64);
+            const auto publicKey = getPublicKey(TWPublicKeyTypeCURVE25519);
+            ed25519_sign(digest.data(), digest.size(), bytes.data(), publicKey.bytes.data(), result.data());
+        }
+            break;
     case TWCurveNIST256p1: {
         result.resize(65);
         success = ecdsa_sign_digest(&nist256p1, bytes.data(), digest.data(), result.data(),
@@ -139,6 +146,7 @@ Data PrivateKey::sign(const Data& digest, TWCurve curve, int(*canonicalChecker)(
     } break;
     case TWCurveED25519: // not supported
     case TWCurveED25519Blake2bNano: // not supported
+    case TWCurveCurve25519: // not supported
         break;
     case TWCurveNIST256p1: {
         result.resize(65);

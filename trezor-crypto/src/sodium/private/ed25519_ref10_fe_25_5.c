@@ -1,4 +1,4 @@
-#include "ed25519_ref10_fe_25_5.h"
+#include <TrezorCrypto/sodium/private/ed25519_ref10_fe_25_5.h>
 
 /*
  h = 0

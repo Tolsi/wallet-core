@@ -593,5 +593,16 @@
         "xpub": "xpub",
         "xprv": "xprv",
         "explorer": "https://explorer.zel.cash/tx/"
+    },
+    {
+        "id": "waves",
+        "name": "Waves",
+        "symbol": "WAVES",
+        "decimals": 8,
+        "blockchain": "Waves",
+        "derivationPath": "m/44'/5741564'/0'",
+        "curve": "ed25519",
+        "publicKeyType": "curve25519",
+        "explorer": "https://wavesexplorer.com/tx/"
     }
 ]

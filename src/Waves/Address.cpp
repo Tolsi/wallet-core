@@ -62,7 +62,7 @@ Address::Address(const Data &data) {
 }
 
 Address::Address(const PublicKey &publicKey) {
-    if (publicKey.type() != PublicKeyType::curve25519) {
+    if (publicKey.type != TWPublicKeyTypeCURVE25519) {
         throw std::invalid_argument("Invalid public key type");
     }
     const auto pkdata = Data(publicKey.bytes.begin() + 1, publicKey.bytes.end());
