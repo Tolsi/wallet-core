@@ -6,6 +6,10 @@
 
 #include "ed25519_ref10_fe_25_5.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void fe25519_invert(fe25519 out, const fe25519 z);
 
 /*
@@ -65,12 +69,16 @@ void ge25519_p3_to_cached(ge25519_cached *r, const ge25519_p3 *p);
 
 void ge25519_p1p1_to_p3(ge25519_p3 *r, const ge25519_p1p1 *p);
 
-void ge25519_add(ge25519_p1p1 *r, const ge25519_p3 *p, const ge25519_cached *q);
+void ge25519_add2(ge25519_p1p1 *r, const ge25519_p3 *p, const ge25519_cached *q);
 
 void ge25519_sub(ge25519_p1p1 *r, const ge25519_p3 *p, const ge25519_cached *q);
 
 int ge25519_is_on_main_subgroup(const ge25519_p3 *p);
 
 int ge25519_has_small_order(const unsigned char s[32]);
+
+#ifdef __cplusplus
+} /* extern "C" */
+#endif
 
 #endif

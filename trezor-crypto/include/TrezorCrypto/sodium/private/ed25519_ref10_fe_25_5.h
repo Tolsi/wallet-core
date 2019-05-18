@@ -6,6 +6,10 @@
 #include "fe_25_5/fe.h"
 #include "ed25519_ref10.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void fe25519_0(fe25519 h);
 
 void fe25519_1(fe25519 h);
@@ -31,5 +35,9 @@ void fe25519_mul(fe25519 h, const fe25519 f, const fe25519 g);
 void fe25519_sq(fe25519 h, const fe25519 f);
 
 void fe25519_sq2(fe25519 h, const fe25519 f);
+
+#ifdef __cplusplus
+} /* extern "C" */
+#endif
 
 #endif

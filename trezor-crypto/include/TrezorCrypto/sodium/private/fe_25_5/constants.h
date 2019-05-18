@@ -1,6 +1,10 @@
 #ifndef __CONSTANTS_H__
 #define __CONSTANTS_H__
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* 37095705934669439343138083508754565189542113879843219016388785533085940283555 */
 static const fe25519 d = {
         -10913610, 13857413, -15372611, 6949391, 114729, -8787816, -6275908, -3247719, -18696448, -12055116
@@ -21,5 +25,9 @@ static const fe25519 sqrtm1 = {
 static const fe25519 curve25519_A = {
         486662, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
+
+#ifdef __cplusplus
+} /* extern "C" */
+#endif
 
 #endif
