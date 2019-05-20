@@ -214,7 +214,7 @@ TEST(Coin, DeriveAddress) {
     EXPECT_EQ(TW::deriveAddress(TWCoinTypeIoTeX, privateKey), "io1nk9x9ajk4rgkzhqjjn7hr6w0k0jg2kj0zgdt6h");
     EXPECT_EQ(TW::deriveAddress(TWCoinTypeEllaism, privateKey), "0x9d8A62f656a8d1615C1294fd71e9CFb3E4855A4F");
     EXPECT_EQ(TW::deriveAddress(TWCoinTypeDEXON, privateKey), "0x9d8A62f656a8d1615C1294fd71e9CFb3E4855A4F");
-    EXPECT_EQ(TW::deriveAddress(TWCoinTypeWaves, privateKey), "3PAojm7pVWSy1UoZoDeQJSMNNLo99MXgvRs");
+        EXPECT_EQ(TW::deriveAddress(TWCoinTypeWaves, privateKey), "3P2C786D6mBuvyf4WYr6K6Vch5uhi97nBHG");
 }
 
 } // namespace TW
