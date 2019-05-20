@@ -22,8 +22,7 @@ Data Address::secureHash(const T &data) {
     return Hash::keccak256(Hash::blake2b(data, 32));
 }
 
-bool Address::isValid(const std::string &string) {
-    const auto decoded = Base58::bitcoin.decode(string);
+bool Address::isValid(const Data &decoded) {
     if (decoded.size() != Address::size) {
         return false;
     }
@@ -45,12 +44,16 @@ bool Address::isValid(const std::string &string) {
     return std::memcmp(data_checksum.data(), calculated_checksum.data(), 4) == 0;
 }
 
+bool Address::isValid(const std::string &string) {
+    const auto decoded = Base58::bitcoin.decode(string);
+    return isValid(decoded);
+}
+
 Address::Address(const std::string &string) {
     const auto decoded = Base58::bitcoin.decode(string);
-    if (decoded.size() != Address::size || decoded[0] != v1) {
-        throw std::invalid_argument("Invalid address string");
+    if (!isValid(string)) {
+        throw std::invalid_argument("Invalid address key data");
     }
-
     std::copy(decoded.begin(), decoded.end(), bytes.begin());
 }
 

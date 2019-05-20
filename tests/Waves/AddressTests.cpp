@@ -62,3 +62,7 @@ TEST(WavesAddress, InitWithString) {
 
     ASSERT_EQ(address.string(), "3PQupTC1yRiHneotFt79LF2pkN6GrGMwEy3");
 }
+
+TEST(WavesAddress, InitWithInvalidString) {
+    EXPECT_THROW(Address("3PQupTC1yRiHneotFt79LF2pkN6GrGMwEy2"), invalid_argument);
+}

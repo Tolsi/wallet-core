@@ -7,18 +7,20 @@ option java_package = "wallet.core.jni.proto";
 message SigningInput {
     int64 amount = 1;
 
-    int32 fee = 2;
+    string amount_asset = 2;
 
-    string account = 3;
+    int64 fee = 3;
 
-    string destination = 4;
+    string fee_asset = 4;
 
-    // Private key.
-    bytes private_key = 5;
+    string to = 5;
+
+    bytes attachment = 6;
+
+    int64 timestamp = 7;
 }
 
 // Transaction signing output.
 message SigningOutput {
-    // Signature.
     string signature = 1;
 }
