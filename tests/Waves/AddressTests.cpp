@@ -24,19 +24,23 @@ TEST(WavesAddress, SecureHash) {
 TEST(WavesAddress, FromPrivateKey) {
     const auto privateKey =
             PrivateKey(parse_hex("9864a747e1b97f131fabb6b447296c9b6f0201e79fb3c5356e6c77e89b6a806a"));
-    const auto publicKey = privateKey.getPublicKey(TWPublicKeyTypeCURVE25519);
-    const auto address = Address(publicKey);
+    const auto publicKeyEd25519 = privateKey.getPublicKey(TWPublicKeyTypeED25519);
+    ASSERT_EQ(hex(Data(publicKeyEd25519.bytes.begin(), publicKeyEd25519.bytes.end())),
+              "ff84c4bfc095df25b01e48807715856d95af93d88c5b57f30cb0ce567ca4ced6");
+    const auto publicKeyCurve25519 = privateKey.getPublicKey(TWPublicKeyTypeCURVE25519);
+    ASSERT_EQ(hex(Data(publicKeyCurve25519.bytes.begin(), publicKeyCurve25519.bytes.end())),
+              "559a50cb45a9a8e8d4f83295c354725990164d10bb505275d1a3086c08fb935d");
+    const auto address = Address(publicKeyCurve25519);
 
-    ASSERT_EQ(address.string(), "3P558LKWSr3NC6z58ZD8eE78dozbnW3Y8oC");
+    ASSERT_EQ(address.string(), "3P2uzAzX9XTu1t32GkWw68YFFLwtapWvDds");
 }
 
 TEST(WavesAddress, FromPublicKey) {
-    const auto privateKey =
-            PrivateKey(parse_hex("9864a747e1b97f131fabb6b447296c9b6f0201e79fb3c5356e6c77e89b6a806a"));
-    const auto publicKey = privateKey.getPublicKey(TWPublicKeyTypeCURVE25519);
+    const auto publicKey = PublicKey(parse_hex("559a50cb45a9a8e8d4f83295c354725990164d10bb505275d1a3086c08fb935d"),
+                                     TWPublicKeyTypeCURVE25519);
     const auto address = Address(publicKey);
 
-    ASSERT_EQ(address.string(), "3P558LKWSr3NC6z58ZD8eE78dozbnW3Y8oC");
+    ASSERT_EQ(address.string(), "3P2uzAzX9XTu1t32GkWw68YFFLwtapWvDds");
 }
 
 TEST(WavesAddress, Invalid) {

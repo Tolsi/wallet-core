@@ -65,14 +65,14 @@ Address::Address(const PublicKey &publicKey) {
     if (publicKey.type != TWPublicKeyTypeCURVE25519) {
         throw std::invalid_argument("Invalid public key type");
     }
-    const auto pkdata = Data(publicKey.bytes.begin() + 1, publicKey.bytes.end());
+    const auto pkdata = Data(publicKey.bytes.begin(), publicKey.bytes.end());
     const auto keyhash = Hash::keccak256(Hash::blake2b(pkdata, 32));
     bytes[0] = v1;
     bytes[1] = mainnet;
     std::copy(keyhash.begin(), keyhash.begin() + 20, bytes.begin() + 2);
 
     const auto checksum_data = Data(bytes.begin(), bytes.begin() + 22);
-    const auto checksum = Hash::keccak256(Hash::blake2b(checksum_data, 22));
+    const auto checksum = Hash::keccak256(Hash::blake2b(checksum_data, 32));
 
     std::copy(checksum.begin(), checksum.begin() + 4, bytes.begin() + 22);
 }

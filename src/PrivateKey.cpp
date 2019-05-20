@@ -87,10 +87,12 @@ PublicKey PrivateKey::getPublicKey(TWPublicKeyType type) const {
         ed25519_publickey_blake2b(bytes.data(), result.data());
         break;
         case TWPublicKeyTypeCURVE25519:
+            Data ed25519;
+            ed25519.resize(PublicKey::ed25519Size);
         result.resize(PublicKey::ed25519Size);
-        result[0] = 1;
-        ed25519_publickey(bytes.data(), result.data() + 1);
-        ed25519_pk_to_curve25519(result.data() + 1, result.data() + 1);
+            ed25519[0] = 1;
+            ed25519_publickey(bytes.data(), ed25519.data());
+            ed25519_pk_to_curve25519(result.data(), ed25519.data());
         break;
     }
     return PublicKey(result, type);
