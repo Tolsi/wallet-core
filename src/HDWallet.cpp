@@ -120,7 +120,7 @@ std::optional<PublicKey> HDWallet::getPublicKeyFromExtended(const std::string &e
     case TWCurveED25519Blake2bNano:
         return PublicKey(Data(node.public_key, node.public_key + 33), TWPublicKeyTypeED25519Blake2b);
         case TWCurveCurve25519:
-            return PublicKey(Data(node.public_key, node.public_key + 33), TWPublicKeyTypeCURVE25519);
+            return PublicKey(Data(node.public_key, node.public_key + 32), TWPublicKeyTypeCURVE25519);
     case TWCurveNIST256p1:
         return PublicKey(Data(node.public_key, node.public_key + 33), TWPublicKeyTypeNIST256p1);
     }

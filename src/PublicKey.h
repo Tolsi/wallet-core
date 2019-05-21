@@ -47,11 +47,11 @@ class PublicKey {
             return false;
         }
         switch (type) {
-            case TWPublicKeyTypeCURVE25519:
         case TWPublicKeyTypeED25519:
             return size == ed25519Size || (size == ed25519Size + 1 && data[0] == 0x01);
-        case TWPublicKeyTypeED25519Blake2b:
-            return size == ed25519Size;
+            case TWPublicKeyTypeCURVE25519:
+            case TWPublicKeyTypeED25519Blake2b:
+                return size == ed25519Size;
         case TWPublicKeyTypeSECP256k1:
         case TWPublicKeyTypeNIST256p1:
             return size == secp256k1Size && (data[0] == 0x02 || data[0] == 0x03);

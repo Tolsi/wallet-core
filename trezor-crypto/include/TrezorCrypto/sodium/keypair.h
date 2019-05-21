@@ -11,6 +11,8 @@ extern "C" {
 
 int ed25519_pk_to_curve25519(unsigned char *curve25519_pk, const unsigned char *ed25519_pk);
 
+int curve25519_pk_to_ed25519(unsigned char *ed25519_pk, const unsigned char *curve25519_pk);
+
 #ifdef __cplusplus
 } /* extern "C" */
 #endif

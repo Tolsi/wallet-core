@@ -87,12 +87,9 @@ PublicKey PrivateKey::getPublicKey(TWPublicKeyType type) const {
         ed25519_publickey_blake2b(bytes.data(), result.data());
         break;
         case TWPublicKeyTypeCURVE25519:
-            Data ed25519;
-            ed25519.resize(PublicKey::ed25519Size);
         result.resize(PublicKey::ed25519Size);
-            ed25519[0] = 1;
-            ed25519_publickey(bytes.data(), ed25519.data());
-            ed25519_pk_to_curve25519(result.data(), ed25519.data());
+            PublicKey ed25519PublicKey = getPublicKey(TWPublicKeyTypeED25519);
+            ed25519_pk_to_curve25519(result.data(), ed25519PublicKey.bytes.data());
         break;
     }
     return PublicKey(result, type);
@@ -120,8 +117,11 @@ Data PrivateKey::sign(const Data& digest, TWCurve curve) const {
     } break;
         case TWCurveCurve25519: {
             result.resize(64);
-            const auto publicKey = getPublicKey(TWPublicKeyTypeCURVE25519);
+            const auto publicKey = getPublicKey(TWPublicKeyTypeED25519);
             ed25519_sign(digest.data(), digest.size(), bytes.data(), publicKey.bytes.data(), result.data());
+            const auto sign_bit = publicKey.bytes[31] & 0x80;
+            result[63] = result[63] & 127;
+            result[63] |= sign_bit;
         }
             break;
     case TWCurveNIST256p1: {
