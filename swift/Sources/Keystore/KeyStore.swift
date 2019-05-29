@@ -145,7 +145,7 @@ public final class KeyStore {
         }
         let url = makeAccountURL()
         let wallet = Wallet(keyURL: url, key: newKey)
-        let _ = try wallet.getAccount(password: password, coin: coin)
+        _ = try wallet.getAccount(password: password, coin: coin)
         wallets.append(wallet)
 
         try save(wallet: wallet)
@@ -241,6 +241,20 @@ public final class KeyStore {
     ///   - password: current password
     ///   - newPassword: new password
     public func update(wallet: Wallet, password: String, newPassword: String) throws {
+        try update(wallet: wallet, password: password, newPassword: newPassword, newName: wallet.key.name)
+    }
+
+    /// Updates the name of an existing account.
+    ///
+    /// - Parameters:
+    ///   - wallet: wallet to update
+    ///   - password: current password
+    ///   - newName: new name
+    public func update(wallet: Wallet, password: String, newName: String) throws {
+        try update(wallet: wallet, password: password, newPassword: password, newName: newName)
+    }
+
+    private func update(wallet: Wallet, password: String, newPassword: String, newName: String) throws {
         guard let index = wallets.firstIndex(of: wallet) else {
             fatalError("Missing wallet")
         }
@@ -252,17 +266,22 @@ public final class KeyStore {
             privateKeyData.resetBytes(in: 0 ..< privateKeyData.count)
         }
 
-        guard let coin = wallet.key.account(index: 0)?.coin else {
+        let coins = wallet.accounts.map({ $0.coin })
+        guard !coins.isEmpty else {
             throw Error.accountNotFound
         }
 
-        if let mnemonic = checkMnemonic(privateKeyData), let key = StoredKey.importHDWallet(mnemonic: mnemonic, name: wallet.key.name, password: newPassword, coin: coin) {
+        if let mnemonic = checkMnemonic(privateKeyData),
+            let key = StoredKey.importHDWallet(mnemonic: mnemonic, name: newName, password: newPassword, coin: coins[0]) {
             wallets[index].key = key
-        } else if let key = StoredKey.importPrivateKey(privateKey: privateKeyData, name: wallet.key.name, password: newPassword, coin: coin) {
+        } else if let key = StoredKey.importPrivateKey(
+                privateKey: privateKeyData, name: newName, password: newPassword, coin: coins[0]) {
             wallets[index].key = key
         } else {
             throw Error.invalidKey
         }
+
+        _ = try wallets[index].getAccounts(password: newPassword, coins: coins)
     }
 
     /// Deletes an account including its key if the password is correct.
@@ -324,6 +343,10 @@ public final class KeyStore {
         }
 
         let components = Calendar(identifier: .iso8601).dateComponents(in: timeZone, from: date)
-        return String(format: "%04d-%02d-%02dT%02d-%02d-%02d.%09d%@", components.year!, components.month!, components.day!, components.hour!, components.minute!, components.second!, components.nanosecond!, tz)
+        return String(format: "%04d-%02d-%02dT%02d-%02d-%02d.%09d%@",
+                      components.year!, components.month!,
+                      components.day!, components.hour!,
+                      components.minute!, components.second!,
+                      components.nanosecond!, tz)
     }
 }
