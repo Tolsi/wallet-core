@@ -30,13 +30,18 @@ namespace TW::Waves {
         int64_t fee;
         std::string fee_asset;
         Address to;
-        Data pub_key;
         Data attachment;
         int64_t timestamp;
+        Data pub_key;
 
         Transaction(int64_t amount, std::string amount_asset, int64_t fee, std::string fee_asset, Address to,
-                    Data attachment, int64_t timestamp)
-                : amount(amount), fee(fee), to(to), attachment(attachment), timestamp(timestamp) {
+                    Data attachment, int64_t timestamp, Data pub_key)
+                : amount(std::move(amount)),
+                  fee(std::move(fee)),
+                  to(std::move(to)),
+                  attachment(std::move(attachment)),
+                  timestamp(std::move(timestamp)),
+                  pub_key(std::move(pub_key)) {
             if (amount_asset.empty()) {
                 amount_asset = WAVES;
             }

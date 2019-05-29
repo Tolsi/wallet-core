@@ -31,9 +31,9 @@ TEST(WavesSigner, SignTransaction) {
             /* fee asset*/Transaction::WAVES,
             /* to */address,
             /* attachment */parse_hex("66616c6166656c"),
-            /* timestamp */1526641218066
+            /* timestamp */1526641218066,
+            /* pub_key */parse_hex("559a50cb45a9a8e8d4f83295c354725990164d10bb505275d1a3086c08fb935d")
     );
-    tx1.pub_key = parse_hex("559a50cb45a9a8e8d4f83295c354725990164d10bb505275d1a3086c08fb935d");
 
     auto signature = Signer::sign(privateKey, tx1);
 
