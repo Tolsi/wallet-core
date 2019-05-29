@@ -294,6 +294,12 @@ std::string TW::deriveAddress(TWCoinType coin, const PublicKey& publicKey) {
 
     case TWCoinTypeSemux:
         return Semux::Address(publicKey).string();
+
+        case TWCoinTypeARK:
+            return ARK::Address(publicKey).string();
+
+        case TWCoinTypeWaves:
+            return Waves::Address(publicKey).string();
     }
 }
 
