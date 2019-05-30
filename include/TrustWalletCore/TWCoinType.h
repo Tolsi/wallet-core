@@ -71,6 +71,7 @@ enum TWCoinType {
     TWCoinTypeDEXON = 237,
     TWCoinTypeZelcash = 19167,
     TWCoinTypeARK = 111,
+    TWCoinTypeMonetaryUnit = 31,
     TWCoinTypeWaves = 5741564,
 };
 

@@ -172,6 +172,9 @@ bool TW::validateAddress(TWCoinType coin, const std::string& string) {
     case TWCoinTypeARK:
         return ARK::Address::isValid(string);
 
+    case TWCoinTypeMonetaryUnit:
+        return Bitcoin::Address::isValid(string, {{TWP2PKHPrefixMonetaryUnit}, {TWP2SHPrefixMonetaryUnit}});
+
     case TWCoinTypeWaves:
         return Waves::Address::isValid(string);
     }
@@ -295,11 +298,14 @@ std::string TW::deriveAddress(TWCoinType coin, const PublicKey& publicKey) {
     case TWCoinTypeSemux:
         return Semux::Address(publicKey).string();
 
-        case TWCoinTypeARK:
-            return ARK::Address(publicKey).string();
+    case TWCoinTypeARK:
+        return ARK::Address(publicKey).string();
 
-        case TWCoinTypeWaves:
-            return Waves::Address(publicKey).string();
+    case TWCoinTypeMonetaryUnit:
+        return Bitcoin::Address(publicKey, TWP2PKHPrefixMonetaryUnit).string();
+
+    case TWCoinTypeWaves:
+        return Waves::Address(publicKey).string();
     }
 }
 
