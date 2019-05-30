@@ -173,6 +173,8 @@ TEST(TWCoinTypeConfiguration, TWCoinTypeConfigurationGetDecimals) {
     ASSERT_EQ(TWCoinTypeConfigurationGetDecimals(TWCoinTypeZilliqa), 12);
     ASSERT_EQ(TWCoinTypeConfigurationGetDecimals(TWCoinTypeSemux), 9);
     ASSERT_EQ(TWCoinTypeConfigurationGetDecimals(TWCoinTypeDEXON), 18);
+    ASSERT_EQ(TWCoinTypeConfigurationGetDecimals(TWCoinTypeARK), 8);
+    ASSERT_EQ(TWCoinTypeConfigurationGetDecimals(TWCoinTypeWaves), 8);
 }
 
 TEST(TWCoinTypeConfiguration, TWCoinTypeConfigurationGetTransactionURL) {
@@ -422,6 +424,12 @@ TEST(TWCoinTypeConfiguration, TWCoinTypeConfigurationGetID) {
 
     auto zel = WRAPS(TWCoinTypeConfigurationGetID(TWCoinTypeZelcash));
     assertStringsEqual(zel, "zelcash");
+
+    auto ark = WRAPS(TWCoinTypeConfigurationGetID(TWCoinTypeARK));
+    assertStringsEqual(ark, "ark");
+
+    auto waves = WRAPS(TWCoinTypeConfigurationGetID(TWCoinTypeWaves));
+    assertStringsEqual(ark, "waves");
 }
 
 TEST(TWCoinTypeConfiguration, TWCoinTypeConfigurationGetName) {
@@ -568,6 +576,5 @@ TEST(TWCoinTypeConfiguration, TWCoinTypeBlockchain) {
     ASSERT_EQ(TWBlockchainNano, TWCoinTypeBlockchain(TWCoinTypeNano));
     ASSERT_EQ(TWBlockchainSemux, TWCoinTypeBlockchain(TWCoinTypeSemux));
     ASSERT_EQ(TWBlockchainZilliqa, TWCoinTypeBlockchain(TWCoinTypeZilliqa));
-    ASSERT_EQ(TWBlockchainIoTeX, TWCoinTypeBlockchain(TWCoinTypeIoTeX));
     ASSERT_EQ(TWBlockchainWaves, TWCoinTypeBlockchain(TWCoinTypeWaves));
 }
