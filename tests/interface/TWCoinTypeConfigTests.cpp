@@ -321,7 +321,7 @@ TEST(TWCoinTypeConfiguration, TWCoinTypeConfigurationGetTransactionURL) {
 
 auto waves = WRAPS(TWCoinTypeConfigurationGetTransactionURL(TWCoinTypeWaves, txId));
 assertStringsEqual(waves,
-"https://wavesexplorer.com/address/123");
+                   "https://wavesexplorer.com/tx/123");
 }
 
 TEST(TWCoinTypeConfiguration, TWCoinTypeConfigurationGetID) {
