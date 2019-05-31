@@ -88,6 +88,8 @@ public extension CoinType {
             return SemuxAddress(string: string)
         case .ark:
             return ARKAddress(string: string)
+        case .waves:
+            return WavesAddress(string: string)
         }
         return .none
     }
