@@ -9,6 +9,8 @@
 #include "Waves/Address.h"
 
 #include <gtest/gtest.h>
+#include <HDWallet.h>
+#include <Coin.h>
 
 using namespace std;
 using namespace TW;
@@ -65,4 +67,14 @@ TEST(WavesAddress, InitWithString) {
 
 TEST(WavesAddress, InitWithInvalidString) {
     EXPECT_THROW(Address("3PQupTC1yRiHneotFt79LF2pkN6GrGMwEy2"), invalid_argument);
+}
+
+TEST(WavesAddress, Derive) {
+    const auto mnemonic = "water process satisfy repeat flag avoid town badge sketch surge split between cabin sugar ill special axis adjust pull useful craft peace flee physical";
+    const auto wallet = HDWallet(mnemonic, "");
+    const auto address1 = TW::deriveAddress(TWCoinTypeWaves, wallet.getKey(DerivationPath("m/44'/5741564'/0'/0'/0'")));
+    const auto address2 = TW::deriveAddress(TWCoinTypeWaves, wallet.getKey(DerivationPath("m/44'/5741564'/0'/0'/1'")));
+
+    ASSERT_EQ(address1, "3PQupTC1yRiHneotFt79LF2pkN6GrGMwEy3");
+    ASSERT_EQ(address2, "3PEXw52bkS9XuLhttWoKyykZjXqEY8zeLxf");
 }
