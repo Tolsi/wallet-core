@@ -621,8 +621,7 @@ int hdnode_sign(HDNode *node, const uint8_t *msg, uint32_t msg_len, HasherType h
 {
 	if (node->curve->params) {
 		return ecdsa_sign(node->curve->params, hasher_sign, node->private_key, msg, msg_len, sig, pby, is_canonical);
-    }
-    {
+    } else {
         hdnode_fill_public_key(node);
 		if (node->curve == &ed25519_info) {
 			ed25519_sign(msg, msg_len, node->private_key, node->public_key + 1, sig);
