@@ -53,7 +53,7 @@ TEST(TWWavesSigner, Sign) {
             /* to */Waves::Address(input.to()),
             /* attachment */Data(input.attachment().begin(), input.attachment().end()),
             /* timestamp */input.timestamp(),
-            /* pub_key */Data(publicKeyCurve25519.bytes.begin(), publicKeyCurve25519.bytes.end())
+            /* pub_key */Data(input.public_key().begin(), input.public_key().end())
     );
 
     ASSERT_TRUE(publicKeyCurve25519.verify(Data(output.signature().begin(), output.signature().end()),
